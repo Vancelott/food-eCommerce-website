@@ -1,22 +1,41 @@
-import { useAuthState } from 'react-firebase-hooks/auth'
-import { collection, doc, getDocs, setDoc, addDoc, query, where } from "firebase/firestore"; 
+import { collection, doc, getDocs, getDoc, setDoc, addDoc, query, where } from "firebase/firestore"; 
 import { useState, useEffect } from 'react';
-import { db } from '../config/firebase';
+import { db, auth } from '../config/firebase';
+import { CartProduct } from './cartProduct';
+import { useAuthState, } from 'react-firebase-hooks/auth'
 
-export interface CartProduct {
+interface CartProductData {
+    price: number;
+    productTitle: string;
+    id: string;
+    cart: Cart;
+  }  
+
+export interface Cart {
     price: number,
     productTitle: string,
     id: string,
+    products: CartProductData[],
 }
 
 export const Cart = () => {
-    const [cartProducts, setCartProducts] = useState<CartProduct[] | null>(null); 
+    const [cartProducts, setCartProducts] = useState<Cart[] | null>(null); 
     const cartRef = collection(db, "cart");
-    
+    const [user] = useAuthState(auth);
+    const cartOfUser = user?.uid == cartRef.id;
+
     const getCartProducts = async () => {
-        const data = await getDocs(cartRef)
-        setCartProducts(data.docs.map((doc) => ({...doc.data(), id: doc.id})) as CartProduct[]);
-    };
+        if (!user) {
+          return null;
+        }
+      
+        const cartDocRef = doc(cartRef, user.uid);
+        const cartDoc = await getDoc(cartDocRef);
+      
+        if (cartDoc.exists()) {
+          setCartProducts(cartDoc.data()?.products);
+        }
+      };      
 
     useEffect(() => {
         getCartProducts();
@@ -24,6 +43,6 @@ export const Cart = () => {
 
     return <div> 
         <h1> Cart Page </h1>
-        {/* {cartProducts?.map((cart) => <CartProduct cart={cart}/>)} */}
+        {cartProducts && cartProducts?.map((cart) => <CartProduct cart={cart}/>)}
         </div>
 };

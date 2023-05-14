@@ -13,17 +13,23 @@ export const Product = (props: Props) => {
     const { product } = props;
     const cartRef = collection(db, "cart");
     const [user] = useAuthState(auth);
+    const usersRef = collection(db, "users");
+    const userDocRef = user && doc(usersRef, user.uid);
 
-    const [productQuantity, setProductQuantity] = useState<number | null>(null);
+    // const [productQuantity, setProductQuantity] = useState<number | null>(null);
 
-    const getCartProducts = async() => {
-        const data = await getDocs(cartDoc)
-    }
+    // const getCartProducts = async() => {
+    //     const data = await getDocs(cartDoc)
+    // }
 
-    const cartDoc = query(cartRef, where("productId", "==", product.id), where("userId", "==", user?.uid));
+    const cartDoc = userDocRef && query(cartRef, 
+        where("productId", "==", product.id), 
+        // where("userId", "==", user?.uid)
+        );
 
     const addToCart = async () => {
-        await addDoc(cartRef, { 
+        const cartDocRef = doc(cartRef, user?.uid);
+        await setDoc(cartDocRef, { 
             userId: user?.uid, 
             productId: product.id, 
             productTitle: product.title,
