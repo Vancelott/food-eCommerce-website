@@ -9,6 +9,7 @@ export interface Product {
     imageurl: string,
     price: number,
     title: string,
+    quantity: number,
 }
 
 export const Products = () => {

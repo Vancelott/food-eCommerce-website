@@ -2,7 +2,7 @@ import { Product as InterfaceProduct } from './products'
 // import { addToCart } from './products'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { db, auth } from '../../config/firebase';
-import { collection, doc, getDocs, setDoc, addDoc, query, where } from "firebase/firestore"; 
+import { collection, doc, getDocs, setDoc, addDoc, query, where, updateDoc, increment } from "firebase/firestore"; 
 import { useState } from 'react';
 
 interface Props {
@@ -28,13 +28,18 @@ export const Product = (props: Props) => {
         );
 
     const addToCart = async () => {
+        let n = 1;
         const cartDocRef = doc(cartRef, user?.uid);
         await setDoc(cartDocRef, { 
             userId: user?.uid, 
             productId: product.id, 
             productTitle: product.title,
-            }
-        );
+            productPrice: product.price,
+            quantity: 1,
+            })
+        await updateDoc(cartDocRef, {
+            quantity: increment(1)
+        });
       };
 
     return (
