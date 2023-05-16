@@ -7,6 +7,7 @@ import { useAuthState } from 'react-firebase-hooks/auth'
 interface Product {
   productPrice: number;
   productTitle: string;
+  productTitle2: string;
   id: string;
   userId: string;
   quantity: number;
@@ -17,6 +18,7 @@ export interface Cart {
   products: Product[];
   productPrice: number;
   productTitle: string;
+  productTitle2: string;
   userId: string;
   quantity: number;
 }
@@ -30,7 +32,7 @@ export const Cart = () => {
 
   const getCartProducts = async () => {
     if (!user) {
-      return; // Do nothing if there's no user
+      return;
     }
     const q = query(cartRef, where('userId', '==', user.uid));
     const querySnapshot = await getDocs(q);
@@ -46,8 +48,6 @@ export const Cart = () => {
     getCartProducts()
   }, []);
   
-  console.log("cartProducts:", cartProducts); // Check the value of cartProducts
-
   return (
     <div>
       <h1>Cart Page</h1>
@@ -56,5 +56,4 @@ export const Cart = () => {
       }
     </div>
   );
-  
 };

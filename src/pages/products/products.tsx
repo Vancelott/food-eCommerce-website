@@ -24,6 +24,7 @@ export const Products = () => {
     useEffect(() => {
         getProducts();
     }, [])
+
     return <div>
         <h1> Products Page</h1>
             <div>
