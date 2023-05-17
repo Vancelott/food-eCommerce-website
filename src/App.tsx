@@ -8,6 +8,7 @@ import { About } from './pages/about'
 import { Products } from './pages/products/products'
 import { Blog } from './pages/blog'
 import { Cart } from './pages/cart'
+import { Order } from './pages/order';
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
           <Route path="/products" element={<Products />}/>
           <Route path="/blog" element={<Blog />}/>
           <Route path="/cart" element={<Cart />}/>
+          <Route path="/order" element={<Order />}/>
         </Routes>
       </Router>
     </div>
