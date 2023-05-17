@@ -8,8 +8,14 @@ export interface Product {
     id: string,
     imageurl: string,
     price: number,
+    price2: number,
+    productPrice: number,
+    productPrice2: number,
     title: string,
     quantity: number,
+    quantity2: number,
+    productTitle: string;
+    productTitle2: string;
 }
 
 export const Products = () => {

@@ -11,50 +11,55 @@ interface Props {
   product: InterfaceProduct;
 }
 
-interface ProductTitleState {
-  productTitle: string;
-}
-
 export const Product = (props: Props) => {
   const { product } = props;
   const cartRef = collection(db, 'cart');
   const [user] = useAuthState(auth);
-  const [productTitle, setProductTItle] = useState<ProductTitleState>({
-    productTitle: "",
-  })
-  
-  const cartDocRef = doc(cartRef, user?.uid);
-  const cartSnapshot = getDoc(cartDocRef);
-
-  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target;
-    // setProductTItle(cartDocRef, productTitle: product.title);
-  };
 
   const addToCart = async () => {
     const cartDocRef = doc(cartRef, user?.uid);
-
+  
     const cartSnapshot = await getDoc(cartDocRef);
     if (!cartSnapshot.exists()) {
       await setDoc(cartDocRef, {
         userId: user?.uid,
-        productId: product.id,
-        // productTitle: product.title,
+        productTitle: product.title,
         productPrice: product.price,
         quantity: 1,
       });
     } else {
-      await updateDoc(cartDocRef, {
-        quantity: increment(1),
-        productTitle: product.title,
-      });
-    }
-      await updateDoc(cartDocRef, {
-        productTitle2: product.title,
-      })
-    };
-    
+      const cartData = cartSnapshot.data();
+      const productTitle = cartData.productTitle;
+      const productPrice = cartData.productPrice;
+      const productTitle2 = cartData.productTitle2;
+      const productPrice2 = cartData.productPrice2;
 
+      if (!productTitle) {
+        await updateDoc(cartDocRef, {
+          productTitle: product.title,
+          productPrice: product.price,
+          quantity: increment(1),
+        });
+      } else if (!productTitle2) {
+        await updateDoc(cartDocRef, {
+          productTitle2: product.title,
+          productPrice2: product.price,
+          quantity2: increment(1),
+        });
+      } else {
+        if (productTitle === product.title) {
+          await updateDoc(cartDocRef, {
+            quantity: increment(1),
+          });
+        } else if (productTitle2 === product.title) {
+          await updateDoc(cartDocRef, {
+            quantity2: increment(1),
+          });
+        }
+      }
+    }
+  };  
+  
   return (
     <div>
       <div className="title">
@@ -65,9 +70,7 @@ export const Product = (props: Props) => {
       </div>
       <div className="price">
         <p>Price: {product.price}</p>
-        <button onClick={() => {addToCart();
-          //  handleChange()
-           }}>Add to cart</button>
+        <button onClick={addToCart}>Add to cart</button>
       </div>
     </div>
   );

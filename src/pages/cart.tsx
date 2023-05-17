@@ -17,10 +17,12 @@ export interface Cart {
   id: string;
   products: Product[];
   productPrice: number;
+  productPrice2: number;
   productTitle: string;
   productTitle2: string;
   userId: string;
   quantity: number;
+  quantity2: number;
 }
 
 export const Cart = () => {
