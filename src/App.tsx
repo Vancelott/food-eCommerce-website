@@ -9,6 +9,7 @@ import { Products } from './pages/products/products'
 import { Blog } from './pages/blog'
 import { Cart } from './pages/cart'
 import { Order } from './pages/order';
+import { OrderSubmit } from './pages/orderSubmit';
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
           <Route path="/blog" element={<Blog />}/>
           <Route path="/cart" element={<Cart />}/>
           <Route path="/order" element={<Order />}/>
+          <Route path="/orderSubmit" element={<OrderSubmit />}/>
         </Routes>
       </Router>
     </div>
