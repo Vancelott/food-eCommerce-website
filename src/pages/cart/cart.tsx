@@ -1,6 +1,6 @@
 import { collection, doc, getDoc, getDocs, setDoc, addDoc, query, where } from "firebase/firestore"; 
 import { useState, useEffect } from 'react';
-import { db, auth } from '../config/firebase';
+import { db, auth } from '../../config/firebase';
 import { CartProduct } from './cartProduct';
 import { useAuthState } from 'react-firebase-hooks/auth'
 

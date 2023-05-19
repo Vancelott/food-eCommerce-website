@@ -1,8 +1,8 @@
 import * as yup from 'yup';
 import { useForm, SubmitHandler} from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { collection, updateDoc, doc, getDocs, getDoc, setDoc, addDoc, increment } from "firebase/firestore";
-import { db, auth } from '../config/firebase';
+import { collection, updateDoc, doc, deleteDoc, getDoc, addDoc, serverTimestamp } from "firebase/firestore";
+import { db, auth } from '../../config/firebase';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useNavigate } from 'react-router-dom';
 
@@ -31,25 +31,30 @@ export const Order = () => {
 
   const [user] = useAuthState(auth);
   const ordersRef = collection(db, 'orders');
-  const ordersDocRef = doc(ordersRef, user?.uid);
   const cartRef = collection(db, 'cart');
   const cartDocRef = doc(cartRef, user?.uid);
   
   const navigate = useNavigate();
-  // const handleOnClick = () => navigate('/orderSubmit');
 
-  const onSubmit: SubmitHandler<FormData> = async data => {
-
+  const onSubmit: SubmitHandler<FormData> = async (data) => {
     const cartSnapshot = await getDoc(cartDocRef);
     const cartData = cartSnapshot.data();
     const shippingInfo = data;
+    const orderInfo = { cartData, shippingInfo };
+    const ordersDocRef = doc(ordersRef, `${user?.displayName}_${user?.uid}`);
 
-    setDoc(ordersDocRef, {
-      shippingInfo, cartData
-    });
-    navigate('/orderSubmit')
+    const newDoc = await addDoc(collection(ordersDocRef, 'orders'), orderInfo);
+
+    const updateTimestamp = await updateDoc(newDoc, {
+      timestamp: serverTimestamp()
+    });  
+
+    navigate('/orderSubmit');
+
+    await deleteDoc(cartDocRef);
   };
 
+    
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <p>{errors.firstName?.message}</p>
@@ -67,5 +72,5 @@ export const Order = () => {
       <br></br>
       <input type="submit"/>
     </form>
-  );
-};
+    );
+  }

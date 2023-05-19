@@ -1,6 +1,6 @@
 import { Cart } from "./cart";
 import { collection, updateDoc, doc, getDocs, getDoc, setDoc, addDoc, increment } from "firebase/firestore";
-import { db, auth } from '../config/firebase';
+import { db, auth } from '../../config/firebase';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useState, useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
