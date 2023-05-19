@@ -6,7 +6,7 @@ import { Blog } from './blog';
 
 export interface Blog {
   title: string;
-  description: string;
+  content: string;
   author: string;
   date: number;
   id: string;
@@ -25,10 +25,12 @@ export const BlogPost = () => {
         getBlogs();
     }, [])
 
+    console.log(blogList)
+    
   return (
     <div>
       <h1>Blog Post Page</h1>
-      {blogList?.map((blog) => <Blog blog={blog} /> )}
+      {blogList?.map((blog) => <Blog key={blog.id} blog={blog} /> )}
     </div>
   );
 };

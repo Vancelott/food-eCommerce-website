@@ -10,6 +10,7 @@ import { Cart } from './pages/cart/cart';
 import { Order } from './pages/order/order';
 import { OrderSubmit } from './pages/order/orderSubmit';
 import { BlogPost } from './pages/blog/blogPost';
+import { BlogPage } from './pages/blog/blogPage';
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
           <Route path="/about" element={<About />} />
           <Route path="/products" element={<Products />} />
           <Route path="/blog" element={<BlogPost />} />
+          <Route path="/blog/:id" element={<BlogPage />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/order" element={<Order />} />
           <Route path="/orderSubmit" element={<OrderSubmit />} />
