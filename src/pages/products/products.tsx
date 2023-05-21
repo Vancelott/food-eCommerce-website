@@ -31,9 +31,9 @@ export const Products = () => {
         getProducts();
     }, [])
 
-    return <div>
-        <h1> Products Page</h1>
-            <div>
+    return <div className="bg-orange-50 w-screen h-screen">
+        {/* <h1> Products Page</h1> */}
+            <div className="flex space-x-8 place-content-center mx-20 my-10">
                 {productsList?.map((product) => <Product product={product}/>)}
             </div>
         </div>

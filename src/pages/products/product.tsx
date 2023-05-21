@@ -2,10 +2,12 @@ import { Product as InterfaceProduct } from './products';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { db, auth } from '../../config/firebase';
 import { collection, doc, getDoc, setDoc, updateDoc, increment, addDoc } from "firebase/firestore"; 
-import { useState, ChangeEvent } from 'react';
+import { useState, ChangeEvent, useEffect } from 'react';
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
 import 'firebase/compat/firestore';
+import { Link } from 'react-router-dom';
+import { ref, getDownloadURL, getStorage } from 'firebase/storage';
 
 interface Props {
   product: InterfaceProduct;
@@ -15,6 +17,25 @@ export const Product = (props: Props) => {
   const { product } = props;
   const cartRef = collection(db, 'cart');
   const [user] = useAuthState(auth);
+  const cartDocRef = doc(cartRef, user?.uid);
+  const [imageURL, setImageURL] = useState('');
+  
+  useEffect(() => {
+    const fetchImageURL = async () => {
+      try {
+        const storage = getStorage();
+        const imageRef = ref(storage, product.imageurl);
+
+        const downloadURL = await getDownloadURL(imageRef);
+        setImageURL(downloadURL);
+      } catch (error) {
+        console.error('Error retrieving download URL:', error);
+      }
+    };
+
+    fetchImageURL();
+  }, []);
+
 
   const addToCart = async () => {
     const cartDocRef = doc(cartRef, user?.uid);
@@ -26,6 +47,7 @@ export const Product = (props: Props) => {
         productTitle: product.title,
         productPrice: product.price,
         quantity: 1,
+        imageurl: product.imageurl,
       });
     } else {
       const cartData = cartSnapshot.data();
@@ -61,17 +83,14 @@ export const Product = (props: Props) => {
   };  
   
   return (
-    <div>
-      <div className="title">
-        <h1>{product.title}</h1>
-      </div>
-      <div className="description">
-        <p>{product.description}</p>
-      </div>
-      <div className="price">
+    <Link to={`/product/${product?.id}`}>
+      <div className="flex flex-col items-center justify-center bg-amber-50 min-w-full min-h-full	rounded-xl space-y-8 mt-20 px-10 py-6">
+        <img className="flex-auto w-64 h-64 object-cover"src={imageURL} alt="Product Image" />
+        <h1 className="text-2xl font-bold">{product.title}</h1>
+        {/* <p className="">{product.description}</p> */}
         <p>Price: {product.price}</p>
-        <button onClick={addToCart}>Add to cart</button>
+        <button className="bg-stone-900 text-white rounded-lg px-4 py-2 mt-4" onClick={addToCart}>Add to cart</button>
       </div>
-    </div>
+    </Link>
   );
 };

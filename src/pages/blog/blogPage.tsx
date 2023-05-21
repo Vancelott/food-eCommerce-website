@@ -10,7 +10,7 @@ interface Props {
   };  
 
 export const BlogPage = (props: Props) => {
-  const { id } = useParams(); // Retrieve the blog id from URL parameters
+  const { id } = useParams();
   const { blog } = props;
 
   const [blogList, setBlogList] = useState<InterfaceBlog[] | null>(null);

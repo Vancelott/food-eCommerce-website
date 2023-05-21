@@ -3,7 +3,7 @@ import { collection, updateDoc, doc, getDocs, getDoc, setDoc, addDoc, increment 
 import { db, auth } from '../../config/firebase';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useState, useEffect } from "react";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 interface Props extends Cart {
   productPrice: number;
@@ -53,7 +53,7 @@ export const CartProduct = (props: Props) => {
   
   return (
     <>
-      <div>
+      <div className="">
         <h1>{productTitle}</h1>
         <p>Price: {productPrice}</p>
         <p>Quantity: {quantity}</p>

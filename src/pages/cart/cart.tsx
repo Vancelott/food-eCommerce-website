@@ -51,7 +51,7 @@ export const Cart = () => {
   }, []);
   
   return (
-    <div>
+    <div className="flex h-full flex-col overflow-y-scroll bg-white shadow-xl">
       <h1>Cart Page</h1>
       {cartProducts &&
         cartProducts.map((cart) => <CartProduct key={cart.id} {...cart} />)
