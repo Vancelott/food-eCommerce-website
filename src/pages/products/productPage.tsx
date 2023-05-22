@@ -93,14 +93,16 @@ export const ProductPage = (props: Props) => {
   }, [id, productList]);
 
   return (
-    <div className="flex justify-center items-center bg-orange-50 m-80 min-h-screen min-w-screen">
-      <div className="flex">
-        <img className="w-96 h-96 object-cover mr-14" src={imageURL} alt="Product Image" />
+    <div className="flex justify-center items-center bg-orange-50 h-screen w-screen">
+      <div className="flex m-80">
+        <img className="w-96 h-96 object-cover mr-20" src={imageURL} alt="Product Image" />
         <div className="flex flex-col justify-center">
-          <h1 className="text-left mb-6 font-bold text-4xl">{selectedProduct?.title}</h1>
+          <h1 className="text-left mb-6 font-bold text-4xl px-52">{selectedProduct?.title}</h1>
           <h2 className="text-left mb-6 px-52">{selectedProduct?.description}</h2>
-          <p>Price: {selectedProduct?.price}</p>
-          <button onClick={addToCart} className="mt-4">Add to cart</button>
+          <p className="text-left mb-6 px-52">Price: ${selectedProduct?.price}</p>
+          <div className="justify-center">
+          <button onClick={addToCart} className="mt-4 bg-white text-black w-28 h-10 text-semibold justify-center text-lg font-light">Add to cart</button>
+          </div>
         </div>
       </div>
     </div>

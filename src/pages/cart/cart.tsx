@@ -1,4 +1,4 @@
-import { collection, doc, getDoc, getDocs, setDoc, addDoc, query, where } from "firebase/firestore"; 
+import { collection, doc, getDocs, query, where } from "firebase/firestore";
 import { useState, useEffect } from 'react';
 import { db, auth } from '../../config/firebase';
 import { CartProduct } from './cartProduct';
@@ -27,10 +27,10 @@ export interface Cart {
 
 export const Cart = () => {
   const [cartProducts, setCartProducts] = useState<Cart[]>([]);
+  const [isLoading, setIsLoading] = useState(true); // Add loading state
   
   const cartRef = collection(db, "cart");
   const [user] = useAuthState(auth);
-  // const cartOfUser = user?.uid == cartRef.id;
 
   const getCartProducts = async () => {
     if (!user) {
@@ -44,15 +44,19 @@ export const Cart = () => {
         id: doc.id,
       })) as Cart[]
     );
-  };  
+    setIsLoading(false); // Set loading state to false
+  };
 
   useEffect(() => {
-    getCartProducts()
+    getCartProducts();
   }, []);
-  
+
+  if (isLoading) {
+    return <p>Loading...</p>; // Display a loading state while fetching data
+  }
+
   return (
     <div className="flex h-full flex-col overflow-y-scroll bg-white shadow-xl">
-      <h1>Cart Page</h1>
       {cartProducts &&
         cartProducts.map((cart) => <CartProduct key={cart.id} {...cart} />)
       }

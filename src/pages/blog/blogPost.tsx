@@ -28,8 +28,7 @@ export const BlogPost = () => {
     console.log(blogList)
     
   return (
-    <div>
-      <h1>Blog Post Page</h1>
+    <div className="mt-10">
       {blogList?.map((blog) => <Blog key={blog.id} blog={blog} /> )}
     </div>
   );

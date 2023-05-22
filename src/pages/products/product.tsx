@@ -84,11 +84,10 @@ export const Product = (props: Props) => {
   
   return (
     <Link to={`/product/${product?.id}`}>
-      <div className="flex flex-col items-center justify-center bg-amber-50 min-w-full min-h-full	rounded-xl space-y-8 mt-20 px-10 py-6">
-        <img className="flex-auto w-64 h-64 object-cover"src={imageURL} alt="Product Image" />
-        <h1 className="text-2xl font-bold">{product.title}</h1>
-        {/* <p className="">{product.description}</p> */}
-        <p>Price: {product.price}</p>
+      <div className="flex flex-col items-center justify-center bg-amber-400 min-w-full min-h-full rounded-xl space-y-6 mt-20 px-10 py-6">
+        <img className="flex w-64 h-64 object-cover"src={imageURL} alt="Product Image" />
+        <h1 className="text-2xl font-extrabold dark:text-black">{product.title}</h1>
+        <p className="font-semibold text-gray-500 dark:text-gray-700">Price: ${product.price}</p>
         <button className="bg-stone-900 text-white rounded-lg px-4 py-2 mt-4" onClick={addToCart}>Add to cart</button>
       </div>
     </Link>
