@@ -30,50 +30,52 @@ export const ProductPage = (props: Props) => {
     }, [])
 
     const selectedProduct = productList?.find((product) => product.id === id);
-
-    const addToCart = async () => {
-      const cartDocRef = doc(cartRef, user?.uid);
     
-      const cartSnapshot = await getDoc(cartDocRef);
+    const addToCart = async () => {
+
+      const cartDocRef = doc(cartRef, user?.uid);
+      const cartSnapshot = await getDoc(cartDocRef!);
+
       if (!cartSnapshot.exists()) {
-        await setDoc(cartDocRef, {
+        await setDoc(cartDocRef!, {
           userId: user?.uid,
           productTitle: selectedProduct?.title,
           productPrice: selectedProduct?.price,
           quantity: 1,
+          imageurl: selectedProduct?.imageurl,
         });
       } else {
         const cartData = cartSnapshot.data();
         const productTitle = cartData.productTitle;
         const productPrice = cartData.productPrice;
+        const quantity = cartData.quantity;
         const productTitle2 = cartData.productTitle2;
         const productPrice2 = cartData.productPrice2;
-  
-        if (!productTitle) {
-          await updateDoc(cartDocRef, {
-            productTitle: selectedProduct?.title,
-            productPrice: selectedProduct?.price,
+        const quantity2 = cartData.quantity2;
+    
+        if (productTitle === selectedProduct?.title) {
+          await updateDoc(cartDocRef!, {
             quantity: increment(1),
           });
         } else if (!productTitle2) {
-          await updateDoc(cartDocRef, {
+          await updateDoc(cartDocRef!, {
             productTitle2: selectedProduct?.title,
             productPrice2: selectedProduct?.price,
             quantity2: increment(1),
           });
+        } else if (productTitle2 === selectedProduct?.title) {
+          await updateDoc(cartDocRef!, {
+            quantity2: increment(1),
+          });
         } else {
-          if (productTitle === selectedProduct?.title) {
-            await updateDoc(cartDocRef, {
-              quantity: increment(1),
-            });
-          } else if (productTitle2 === selectedProduct?.title) {
-            await updateDoc(cartDocRef, {
-              quantity2: increment(1),
-            });
-          }
+          await updateDoc(cartDocRef!, {
+            productTitle: selectedProduct?.title,
+            productPrice: selectedProduct?.price,
+            quantity: increment(1),
+          });
         }
       }
-    };
+    };      
 
   const [imageURL, setImageURL] = useState('');
   

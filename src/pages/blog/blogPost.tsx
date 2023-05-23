@@ -5,11 +5,12 @@ import { useState, useEffect } from 'react';
 import { Blog } from './blog';
 
 export interface Blog {
-  title: string;
-  content: string;
-  author: string;
-  date: number;
-  id: string;
+  title: string,
+  content: string,
+  author: string,
+  date: number,
+  id: string,
+  imageurl: string,
 }
 
 export const BlogPost = () => {

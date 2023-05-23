@@ -7,6 +7,7 @@ export interface Product {
     description: string,
     id: string,
     imageurl: string,
+    imageurl2: string,
     price: number,
     price2: number,
     productPrice: number,
@@ -31,9 +32,9 @@ export const Products = () => {
         getProducts();
     }, [])
 
-    return <div className="bg-gray-300 w-screen h-screen">
+    return <div className="bg-gray-100 w-screen pt-16">
         {/* <h1> Products Page</h1> */}
-            <div className="flex space-x-8 place-content-center px-20 py-10">
+            <div className="flex flex-col md:flex-row items-center md:space-x-8 place-content-center">
                 {productsList?.map((product) => <Product product={product}/>)}
             </div>
         </div>

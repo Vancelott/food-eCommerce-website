@@ -64,10 +64,12 @@ export const NavBar = () => {
                 <li className="block cursor-pointer py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">
                   <Link to="/blog">Blog</Link>
                 </li>
+                {user ? (
                 <li className="block cursor-pointer py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">
                   <Link to="/cart">Cart</Link>
                 </li>
-                <li className="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:p-0 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">
+                ) : null}
+                <li className="block py-2 pl-3 pr-4 text-gray-900 rounded md:hover:bg-transparent md:border-0 md:p-0 dark:text-white dark:hover:text-white md:dark:hover:bg-transparent">
                   <div className="flex place-content-end space-x-3 items-center">
                     {user && (
                       <>
@@ -88,136 +90,3 @@ export const NavBar = () => {
         </nav>
       );
     };
-    // return (
-    //     <div className="flex flex-row place-content-center space-x-8 bg-blue-950 text-white py-10 text-base font-semibold font-poppins items-center sticky top-0 w-full drop-shadow-lg"> 
-    //         <Link to="/"> Home</Link>
-    //         {!user ? (
-    //         <Link to="/login"> Login</Link> ) : ("")}
-    //         <Link to="/about"> About</Link>
-    //         <Link to="/products"> Products</Link>
-    //         <Link to="/blog"> Blog</Link>
-    //         <Link to="/cart"> Cart</Link>
-    //         <div className="flex place-content-end space-x-3 items-center">{user && (
-    //             <>
-    //             <p className="font-normal"> {auth.currentUser?.displayName} </p>
-    //             {/* <img src={auth.currentUser?.photoURL || ""} width="100" height="100"/> */}
-    //             <button onClick={logOut} className="bg-sky-900/100 rounded-xl shadow-lg p-1 px-3 font-normal text-slate-100"> Log Out</button>
-    //             </>
-    //         )}
-    //         </div>
-    //     </div>
-    // );
-    //     return (
-    //       <div className="flex items-center justify-between sticky bg-blue-950 py-8 px-16 text-white">
-    //         <a href="/">
-    //           <img src="https://designbygio.it/images/logo.png" alt="logo" />
-    //         </a>
-    //         <nav>
-    //           <section className="MOBILE-MENU flex lg:hidden">
-    //             <div
-    //               className="HAMBURGER-ICON space-y-2"
-    //               onClick={() => setIsNavOpen((prev) => !prev)} // toggle isNavOpen state on click
-    //             >
-    //               <span className="block h-0.5 w-8 animate-pulse bg-gray-600"></span>
-    //               <span className="block h-0.5 w-8 animate-pulse bg-gray-600"></span>
-    //               <span className="block h-0.5 w-8 animate-pulse bg-gray-600"></span>
-    //             </div>
-      
-    //             <div className={isNavOpen ? "showMenuNav" : "hideMenuNav"}> // toggle class based on isNavOpen state
-    //               <div
-    //                 className="CROSS-ICON absolute top-0 right-0 px-8 py-8"
-    //                 onClick={() => setIsNavOpen(false)} // change isNavOpen state to false to close the menu
-    //               >
-    //                 <svg
-    //                   className="h-8 w-8 text-gray-600"
-    //                   viewBox="0 0 24 24"
-    //                   fill="none"
-    //                   stroke="currentColor"
-    //                   strokeWidth="2"
-    //                   strokeLinecap="round"
-    //                   strokeLinejoin="round"
-    //                 >
-    //                   <line x1="18" y1="6" x2="6" y2="18" />
-    //                   <line x1="6" y1="6" x2="18" y2="18" />
-    //                 </svg>
-    //               </div>
-    //               <ul className="MENU-LINK-MOBILE-OPEN flex flex-col items-center justify-between min-h-[250px]">
-    //                 <li className="border-b border-gray-400 my-8 uppercase">
-    //                 <Link to="/"> Home</Link>
-    //                 </li>
-    //                 <li className="border-b border-gray-400 my-8 uppercase">
-    //                 <Link to="/products"> Products</Link>
-    //                 </li>
-    //                 <li className="border-b border-gray-400 my-8 uppercase">
-    //                 <Link to="/blog"> Blog</Link>
-    //                 </li>
-    //                 <li className="border-b border-gray-400 my-8 uppercase">
-    //                 <Link to="/cart"> Cart</Link>
-    //                 </li>
-    //                 <li className="border-b border-gray-400 my-8 uppercase">
-    //                 {!user ? (
-    //                 <Link to="/login"> Login</Link> ) : ("")}
-    //                 </li>
-    //                 <li className="border-b border-gray-400 my-8 uppercase">
-    //                 <div className="flex place-content-end space-x-3 items-center">{user && (
-    //                     <>
-    //                         <p className="font-normal"> {auth.currentUser?.displayName} </p>
-    //                         <button onClick={logOut} className="bg-sky-900/100 rounded-xl shadow-lg p-1 px-3 font-normal text-slate-100"> Log Out</button>
-    //                     </>
-    //                     )}
-    //                 </div>
-    //                 </li>
-    //               </ul>
-    //             </div>
-    //           </section>
-      
-    //           <ul className="DESKTOP-MENU hidden space-x-8 lg:flex">
-    //             <li>
-    //             <Link to="/"> Home</Link>
-    //             </li>
-    //             <li>
-    //             <Link to="/products"> Products</Link>
-    //             </li>
-    //             <li>
-    //             {!user ? (
-    //             <Link to="/login"> Login</Link> ) : ("")}
-    //             </li>
-    //             <li>
-    //             <Link to="/blog"> Blog</Link>
-    //             </li>
-    //             <li>
-    //             <Link to="/cart"> Cart</Link>
-    //             </li>
-    //             <li>
-    //             <div className="flex place-content-end space-x-3 items-center">{user && (
-    //                     <>
-    //                         <p className="font-normal"> {auth.currentUser?.displayName} </p>
-    //                         <button onClick={logOut} className="bg-sky-900/100 rounded-xl shadow-lg p-1 px-3 font-normal text-slate-100"> Log Out</button>
-    //                     </>
-    //                     )}
-    //                 </div>
-    //             </li>
-    //           </ul>
-    //         </nav>
-    //         <style>{`
-    //         .hideMenuNav {
-    //           display: none;
-    //         }
-    //         .showMenuNav {
-    //           display: block;
-    //           position: absolute;
-    //           width: 100%;
-    //           height: 100vh;
-    //           top: 0;
-    //           left: 0;
-    //           background: white;
-    //           z-index: 10;
-    //           display: flex;
-    //           flex-direction: column;
-    //           justify-content: space-evenly;
-    //           align-items: center;
-    //         }
-    //       `}</style>
-    //       </div>
-    //     );
-    //   }
