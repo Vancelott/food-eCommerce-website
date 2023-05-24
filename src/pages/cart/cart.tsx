@@ -25,8 +25,6 @@ export interface Cart {
   userId: string;
   quantity: number;
   quantity2: number;
-  imageurl: string;
-  imageurl2: string;
 }
 
 export const Cart = () => {
@@ -57,25 +55,16 @@ export const Cart = () => {
   };
 
   const [imageURL, setImageURL] = useState('');
-
+  
   useEffect(() => {
-    const fetchImageURL = async () => {
-      try {
-        if (cartProducts && cartProducts.length > 0) {
-          const storage = getStorage();
-          const imageRef = ref(storage, cartProducts[0].imageurl);
-
-          const downloadURL = await getDownloadURL(imageRef);
-          setImageURL(downloadURL);
-        }
-      } catch (error) {
-        console.error('Error retrieving download URL:', error);
-      }
-    };
-
     getCartProducts();
-    fetchImageURL();
   }, [cartProducts, refreshPage]);
+  
+  if (cartProducts.length < 0 ) {
+    return (
+      <p>Your cart is empty.</p>
+    );
+  };
 
   if (isLoading) {
     return (
@@ -89,12 +78,12 @@ export const Cart = () => {
         </div>
       </div>
     );
-  }
+  };
 
   return (
     <div className="flex h-full flex-col overflow-y-scroll bg-white shadow-xl">
       {cartProducts &&
-        cartProducts.map((cart) => <CartProduct key={cart.id} {...cart} imageurl={imageURL} />)
+        cartProducts.map((cart) => <CartProduct key={cart.id} {...cart}/>)
       }
     </div>
   );

@@ -15,13 +15,11 @@ interface Props extends Cart {
   userId: string;
   quantity: number;
   quantity2: number;
-  imageurl: string;
-  imageurl2: string;
 }
 
 export const CartProduct = (props: Props) => {
   
-  const { productPrice, productTitle, id, quantity, productTitle2, quantity2, productPrice2, imageurl, imageurl2 } = props;
+  const { productPrice, productTitle, id, quantity, productTitle2, quantity2, productPrice2 } = props;
   const subTotal = ((quantity * productPrice) + (quantity2 * productPrice2)).toFixed(2);
   const total = ((quantity * productPrice) + (quantity2 * productPrice2) + 4.99).toFixed(2);
   const cartRef = collection(db, 'cart');
@@ -62,13 +60,6 @@ export const CartProduct = (props: Props) => {
       <div className="mx-auto max-w-5xl justify-center px-6 md:flex md:space-x-6 xl:px-0">
         <div className="rounded-lg md:w-2/3">
           <div className="justify-between mb-6 rounded-lg bg-white p-6 shadow-md sm:flex sm:justify-start">
-          {imageurl && (
-              <img
-                src={imageurl}
-                alt="product-image"
-                className="w-full rounded-lg sm:w-40"
-              />
-            )}
             <div className="sm:ml-4 sm:flex sm:w-full sm:justify-between">
               <div className="mt-5 sm:mt-0">
                 <h2 className="text-lg font-bold text-gray-900">{productTitle}</h2>
@@ -90,13 +81,6 @@ export const CartProduct = (props: Props) => {
           </div>
           {productTitle2 && (
           <div className="justify-between mb-6 rounded-lg bg-white p-6 shadow-md sm:flex sm:justify-start">
-          {imageurl2 && (
-              <img
-                src={imageurl2}
-                alt="product-image"
-                className="w-full rounded-lg sm:w-40"
-              />
-            )}
             <div className="sm:ml-4 sm:flex sm:w-full sm:justify-between">
               <div className="mt-5 sm:mt-0">
                 <h2 className="text-lg font-bold text-gray-900">{productTitle2}</h2>
@@ -131,7 +115,7 @@ export const CartProduct = (props: Props) => {
           <div className="flex justify-between">
             <p className="text-lg font-bold">Total</p>
             <div className="">
-              <p className="mb-1 text-lg font-bold">${total}</p>
+              <p className="ml-8 mb-1 text-lg font-bold">${total}</p>
               <p className="text-sm text-gray-700">including VAT</p>
             </div>
           </div>
