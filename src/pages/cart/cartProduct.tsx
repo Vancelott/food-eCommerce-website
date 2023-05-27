@@ -26,26 +26,26 @@ export const CartProduct = (props: Props) => {
   const [user] = useAuthState(auth);
   const cartDocRef = doc(cartRef, user?.uid);
   
-  const Increment = async () => {
-    if (productTitle === productTitle) {
-      await updateDoc(cartDocRef, {
-        quantity2: increment(1),
-      });
-    } else if (productTitle2 === productTitle2) {
+  const Increment = async (quantityToUpdate: string) => {
+    if (quantityToUpdate === "quantity") {
       await updateDoc(cartDocRef, {
         quantity: increment(1),
       });
+    } else if (quantityToUpdate === "quantity2") {
+      await updateDoc(cartDocRef, {
+        quantity2: increment(1),
+      });
     }
   };
-
-  const Decrement = async () => {
-    if (productTitle === productTitle) {
-      await updateDoc(cartDocRef, {
-        quantity2: increment(-1),
-      });
-    } else if (productTitle2 === productTitle2) {
+  
+  const Decrement = async (quantityToUpdate: string) => {
+    if (quantityToUpdate === "quantity") {
       await updateDoc(cartDocRef, {
         quantity: increment(-1),
+      });
+    } else if (quantityToUpdate === "quantity2") {
+      await updateDoc(cartDocRef, {
+        quantity2: increment(-1),
       });
     }
   };
@@ -66,9 +66,9 @@ export const CartProduct = (props: Props) => {
               </div>
               <div className="mt-4 flex justify-between sm:space-y-6 sm:mt-0 sm:block sm:space-x-6">
                 <div className="flex items-center border-gray-100">
-                <button onClick={Decrement} className="cursor-pointer rounded-l bg-gray-100 py-1 px-3.5 duration-100 hover:bg-blue-500 hover:text-blue-50">-</button>
+                <button onClick={() => Decrement("quantity")} className="cursor-pointer rounded-l bg-gray-100 py-1 px-3.5 duration-100 hover:bg-blue-500 hover:text-blue-50">-</button>
                 <p className="p-2">{quantity}</p>
-                <button onClick={Increment} className="cursor-pointer rounded-r bg-gray-100 py-1 px-3 duration-100 hover:bg-blue-500 hover:text-blue-50">+</button>
+                <button onClick={() => Increment("quantity")} className="cursor-pointer rounded-r bg-gray-100 py-1 px-3 duration-100 hover:bg-blue-500 hover:text-blue-50">+</button>
                 </div>
                 <div className="flex items-center space-x-4">
                   <p className="text-sm">${productPrice}</p>
@@ -87,9 +87,9 @@ export const CartProduct = (props: Props) => {
               </div>
               <div className="mt-4 flex justify-between im sm:space-y-6 sm:mt-0 sm:block sm:space-x-6">
                 <div className="flex items-center border-gray-100">
-                <button onClick={Decrement} className="cursor-pointer rounded-l bg-gray-100 py-1 px-3.5 duration-100 hover:bg-blue-500 hover:text-blue-50">-</button>
+                <button onClick={() => Decrement("quantity2")} className="cursor-pointer rounded-l bg-gray-100 py-1 px-3.5 duration-100 hover:bg-blue-500 hover:text-blue-50">-</button>
                 <p className="pt-0.5 h-8 w-8 border bg-white text-center text-m outline-none">{quantity2}</p>
-                <button onClick={Increment} className="cursor-pointer rounded-r bg-gray-100 py-1 px-3 duration-100 hover:bg-blue-500 hover:text-blue-50">+</button>
+                <button onClick={() => Increment("quantity2")} className="cursor-pointer rounded-r bg-gray-100 py-1 px-3 duration-100 hover:bg-blue-500 hover:text-blue-50">+</button>
                 </div>
                 <div className="flex items-center space-x-4">
                   <p className="text-sm">${productPrice2}</p>

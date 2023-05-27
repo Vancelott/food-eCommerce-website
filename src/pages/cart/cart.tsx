@@ -4,7 +4,6 @@ import { db, auth } from '../../config/firebase';
 import { CartProduct } from './cartProduct';
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { useNavigate } from "react-router-dom";
-import { getDownloadURL, getStorage, ref } from "firebase/storage";
 
 interface Product {
   productPrice: number;
@@ -13,6 +12,7 @@ interface Product {
   id: string;
   userId: string;
   quantity: number;
+  quantity2: number;
 }
 
 export interface Cart {
@@ -53,14 +53,12 @@ export const Cart = () => {
     );
     setIsLoading(false);
   };
-
-  const [imageURL, setImageURL] = useState('');
   
   useEffect(() => {
     getCartProducts();
   }, [cartProducts, refreshPage]);
   
-  if (cartProducts.length < 0 ) {
+  if (cartProducts.length <= 0) {
     return (
       <p>Your cart is empty.</p>
     );
