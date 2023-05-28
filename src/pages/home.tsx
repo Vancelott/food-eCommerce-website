@@ -16,7 +16,7 @@ export const Home = () => {
       <div className="bg-gray-100 w-full min-h-screen flex flex-col justify-center items-center py-12 md:py-24 lg:py-32">
   <h3 className="text-center mt-6 text-4xl lg:text-5xl xl:text-6xl font-extrabold leading-none tracking-tight text-gray-900">Our latest additions</h3>
   <div className="flex flex-col items-center">
-    <Products />
+    <Products/>
   </div>
   </div>
     </div>

@@ -80,9 +80,11 @@ export const Cart = () => {
 
   return (
     <div className="flex h-full flex-col overflow-y-scroll bg-white shadow-xl">
-      {cartProducts &&
-        cartProducts.map((cart) => <CartProduct key={cart.id} {...cart}/>)
-      }
+      {cartProducts.length > 0 ? (
+        cartProducts.map((cart) => <CartProduct key={cart.id} {...cart} />)
+      ) : (
+        <p>Your cart is empty.</p>
+      )}
     </div>
   );
 };

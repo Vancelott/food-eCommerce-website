@@ -17,7 +17,7 @@ export interface Product {
     quantity2: number,
     productTitle: string;
     productTitle2: string;
-}
+};
 
 export const Products = () => {
     const [productsList, setProductsList] = useState<Product[] | null>(null); 

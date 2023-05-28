@@ -1,5 +1,5 @@
 import { Cart } from "./cart";
-import { collection, updateDoc, doc, getDocs, getDoc, setDoc, addDoc, increment, onSnapshot } from "firebase/firestore";
+import { collection, updateDoc, doc, getDocs, getDoc, setDoc, addDoc, increment, onSnapshot, deleteField } from "firebase/firestore";
 import { db, auth } from '../../config/firebase';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useState, useEffect } from "react";
@@ -20,8 +20,8 @@ interface Props extends Cart {
 export const CartProduct = (props: Props) => {
   
   const { productPrice, productTitle, id, quantity, productTitle2, quantity2, productPrice2 } = props;
-  const subTotal = ((quantity * productPrice) + (quantity2 * productPrice2)).toFixed(2);
-  const total = ((quantity * productPrice) + (quantity2 * productPrice2) + 4.99).toFixed(2);
+  const subTotal = ((quantity ? quantity * productPrice : 0) + (quantity2 ? quantity2 * productPrice2 : 0)).toFixed(2);
+  const total = ((quantity ? quantity * productPrice : 0) + (quantity2 ? quantity2 * productPrice2 : 0) + 4.99).toFixed(2);
   const cartRef = collection(db, 'cart');
   const [user] = useAuthState(auth);
   const cartDocRef = doc(cartRef, user?.uid);
@@ -48,8 +48,49 @@ export const CartProduct = (props: Props) => {
         quantity2: increment(-1),
       });
     }
+    
+    const docSnapshot = await getDoc(cartDocRef);
+    const updatedQuantity = docSnapshot.get("quantity");
+    const updatedQuantity2 = docSnapshot.get("quantity2");
+  
+    if (quantityToUpdate === "quantity" && updatedQuantity === 0) {
+      await updateDoc(cartDocRef, {
+        quantity: deleteField(),
+        productPrice: deleteField(),
+        productTitle: deleteField(),
+      });
+    }
+    if (quantityToUpdate === "quantity2" && updatedQuantity2 === 0) {
+      await updateDoc(cartDocRef, {
+        quantity2: deleteField(),
+        productPrice2: deleteField(),
+        productTitle2: deleteField(),
+      });
+    }
+    if (!updatedQuantity && !updatedQuantity2) {
+      await updateDoc(cartDocRef, {
+      userId: deleteField(),
+      imageurl: deleteField(),
+      })
+    }
   };
-
+  
+  // const deleteItem = async (fieldToDelete: string) => {
+  //   if (fieldToDelete === "quantity") {
+  //     await updateDoc(cartDocRef, {
+  //       quantity: deleteField()
+  //     });
+  //   } else if (fieldToDelete === "productTitle") {
+  //     await updateDoc(cartDocRef, {
+  //       productTitle: deleteField()
+  //     });
+  //   } else if (fieldToDelete === "productPrice") {
+  //     await updateDoc(cartDocRef, {
+  //       productPrice: deleteField()
+  //     });
+  //   };
+  // };
+  
   const navigate = useNavigate();
   const handleOnClick = () => navigate('/order');
   
@@ -59,6 +100,7 @@ export const CartProduct = (props: Props) => {
       <h1 className="mb-10 text-center text-2xl font-bold">Cart Items</h1>
       <div className="mx-auto max-w-5xl justify-center px-6 md:flex md:space-x-6 xl:px-0">
         <div className="rounded-lg md:w-2/3">
+        {productTitle && (
           <div className="justify-between mb-6 rounded-lg bg-white p-6 shadow-md sm:flex sm:justify-start">
             <div className="sm:ml-4 sm:flex sm:w-full sm:justify-between">
               <div className="mt-5 sm:mt-0">
@@ -72,13 +114,10 @@ export const CartProduct = (props: Props) => {
                 </div>
                 <div className="flex items-center space-x-4">
                   <p className="text-sm">${productPrice}</p>
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="h-5 w-5 cursor-pointer duration-150 hover:text-red-500">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-                  </svg>
                 </div>
               </div>
             </div>
-          </div>
+          </div>)}
           {productTitle2 && (
           <div className="justify-between mb-6 rounded-lg bg-white p-6 shadow-md sm:flex sm:justify-start">
             <div className="sm:ml-4 sm:flex sm:w-full sm:justify-between">
@@ -93,9 +132,6 @@ export const CartProduct = (props: Props) => {
                 </div>
                 <div className="flex items-center space-x-4">
                   <p className="text-sm">${productPrice2}</p>
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="h-5 w-5 cursor-pointer duration-150 hover:text-red-500">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-                  </svg>
                 </div>
               </div>
             </div>
