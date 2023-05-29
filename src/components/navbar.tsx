@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { auth } from '../config/firebase'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { signOut } from 'firebase/auth'
@@ -8,9 +8,11 @@ export const NavBar = () => {
 
     const [user] = useAuthState(auth);
     const displayName = auth.currentUser
+    const navigate = useNavigate();
 
     const logOut = async () => {
         await signOut(auth);
+        navigate("/")
     }
 
     const [isMenuOpen, setIsMenuOpen] = useState(false);

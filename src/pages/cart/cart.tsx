@@ -31,10 +31,10 @@ export const Cart = () => {
   const [cartProducts, setCartProducts] = useState<Cart[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   
-  const cartRef = collection(db, "cart");
-  const [user] = useAuthState(auth);
   const navigate = useNavigate()
   const handleOnClick = () => navigate('/products');
+  const cartRef = collection(db, "cart");
+  const [user] = useAuthState(auth);
 
   const refreshPage = () => {
     navigate(0);
