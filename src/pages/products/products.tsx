@@ -32,10 +32,11 @@ export const Products = () => {
         getProducts();
     }, [])
 
-    return <div className="bg-gray-100 w-screen h-screen pt-16">
-        {/* <h1> Products Page</h1> */}
-            <div className="flex flex-col md:flex-row items-center md:space-x-8 place-content-center">
-                {productsList?.map((product) => <Product product={product}/>)}
-            </div>
+    return (
+    <div className="bg-gray-100 w-min-screen h-screen pt-16">
+        <div className="flex flex-col md:flex-row items-center md:space-x-8 place-content-center">
+            {productsList?.map((product) => <Product product={product}/>)}
         </div>
+    </div>
+    )
 };

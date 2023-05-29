@@ -7,6 +7,7 @@ import { useState } from 'react';
 export const NavBar = () => {
 
     const [user] = useAuthState(auth);
+    const displayName = auth.currentUser
 
     const logOut = async () => {
         await signOut(auth);

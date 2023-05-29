@@ -34,6 +34,7 @@ export const Cart = () => {
   const cartRef = collection(db, "cart");
   const [user] = useAuthState(auth);
   const navigate = useNavigate()
+  const handleOnClick = () => navigate('/products');
 
   const refreshPage = () => {
     navigate(0);
@@ -54,13 +55,21 @@ export const Cart = () => {
     setIsLoading(false);
   };
   
+
   useEffect(() => {
     getCartProducts();
   }, [cartProducts, refreshPage]);
   
   if (cartProducts.length <= 0) {
     return (
-      <p>Your cart is empty.</p>
+      <div className="flex flex-col items-center justify-center h-screen pb-20">
+      <p className="mx-8 mb-4 text-xl font-extrabold leading-none tracking-tight text-center text-gray-900 md:text-xl lg:text-2xl dark:text-gray-900">Your cart is empty.</p>
+      <button 
+      onClick={handleOnClick}
+      className="inline-flex items-center justify-center px-5 py-3 mt-4 text-base font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-900">
+        Browse
+        </button>
+      </div>
     );
   };
 
@@ -83,7 +92,7 @@ export const Cart = () => {
       {cartProducts.length > 0 ? (
         cartProducts.map((cart) => <CartProduct key={cart.id} {...cart} />)
       ) : (
-        <p>Your cart is empty.</p>
+        <p className="mx-8 mb-4 text-3xl font-extrabold leading-none tracking-tight text-center text-gray-900 md:text-3xl lg:text-4xl dark:text-gray-900">Your cart is empty.</p>
       )}
     </div>
   );

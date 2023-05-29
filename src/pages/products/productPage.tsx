@@ -95,13 +95,14 @@ export const ProductPage = (props: Props) => {
   }, [id, productList]);
 
   return (
-    <div className="flex justify-center items-center bg-orange-100 h-screen">
+    <div className="flex justify-center items-center bg-gray-100 h-screen">
       <div className="flex justify-center m-80 bg-orange-200 rounded-2xl px-10 py-10">
         <img className="w-96 h-96 object-cover mr-20" src={imageURL} alt="Product Image" />
         <div className="flex flex-col justify-center">
-          <h1 className="text-left mb-6 font-bold uppercase text-4xl px-52">{selectedProduct?.title}</h1>
-          <h2 className="text-left mb-6 px-52">{selectedProduct?.description}</h2>
-          <p className="text-left mb-6 px-52">Price: ${selectedProduct?.price}</p>
+          {/* <h1 className="text-left mb-6 font-bold uppercase text-4xl px-52">{selectedProduct?.title}</h1> */}
+          <h1 className="mb-6 text-left uppercase text-2xl font-extrabold leading-none tracking-tight text-gray-900 md:text-3xl lg:text-4xl dark:text-gray-900 pl-8">{selectedProduct?.title}</h1>
+          <h2 className="text-left mb-6 pl-8 pr-12">{selectedProduct?.description}</h2>
+          <p className="text-left mb-6 pl-8 pr-12 font-semibold">Price: ${selectedProduct?.price}</p>
           <div className="justify-center">
             <button className="bg-amber-500 text-white rounded-lg px-4 py-2 mt-4" onClick={addToCart}>Add to cart</button>
           </div>
