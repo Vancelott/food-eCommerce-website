@@ -74,23 +74,7 @@ export const CartProduct = (props: Props) => {
       })
     }
   };
-  
-  // const deleteItem = async (fieldToDelete: string) => {
-  //   if (fieldToDelete === "quantity") {
-  //     await updateDoc(cartDocRef, {
-  //       quantity: deleteField()
-  //     });
-  //   } else if (fieldToDelete === "productTitle") {
-  //     await updateDoc(cartDocRef, {
-  //       productTitle: deleteField()
-  //     });
-  //   } else if (fieldToDelete === "productPrice") {
-  //     await updateDoc(cartDocRef, {
-  //       productPrice: deleteField()
-  //     });
-  //   };
-  // };
-  
+    
   const navigate = useNavigate();
   const handleOnClick = () => navigate('/order');
   

@@ -95,19 +95,19 @@ export const ProductPage = (props: Props) => {
   }, [id, productList]);
 
   return (
-    <div className="flex justify-center items-center bg-gray-100 h-screen">
-      <div className="flex justify-center m-80 bg-orange-200 rounded-2xl px-10 py-10">
-        <img className="w-96 h-96 object-cover mr-20" src={imageURL} alt="Product Image" />
+    <div className="flex justify-center items-center bg-gray-100 min-h-screen">
+      <div className="flex flex-col items-center m-10 sm:m-20 md:m-40 bg-orange-200 rounded-2xl px-5 py-5 sm:px-10 sm:py-10 lg:max-w-4xl xl:flex-row xl:space-x-10">
+        <img className="w-96 h-96 sm:w-96 sm:h-80 md:w-80 md:h-96 object-cover mb-5 sm:mb-10" src={imageURL} alt="Product Image" />
         <div className="flex flex-col justify-center">
-          {/* <h1 className="text-left mb-6 font-bold uppercase text-4xl px-52">{selectedProduct?.title}</h1> */}
-          <h1 className="mb-6 text-left uppercase text-2xl font-extrabold leading-none tracking-tight text-gray-900 md:text-3xl lg:text-4xl dark:text-gray-900 pl-8">{selectedProduct?.title}</h1>
-          <h2 className="text-left mb-6 pl-8 pr-12">{selectedProduct?.description}</h2>
-          <p className="text-left mb-6 pl-8 pr-12 font-semibold">Price: ${selectedProduct?.price}</p>
-          <div className="justify-center">
+          <h1 className="mb-3 text-center uppercase text-lg sm:text-2xl md:text-3xl lg:text-2xl xl:text-3xl font-extrabold leading-tight text-gray-900 dark:text-gray-900">{selectedProduct?.title}</h1>
+          <h2 className="text-center mb-3">{selectedProduct?.description}</h2>
+          <p className="text-center mb-3 font-semibold">Price: ${selectedProduct?.price}</p>
+          <div className="flex justify-center">
             <button className="bg-amber-500 text-white rounded-lg px-4 py-2 mt-4" onClick={addToCart}>Add to cart</button>
           </div>
         </div>
       </div>
     </div>
   );
-  };
+          
+        };

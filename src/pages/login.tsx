@@ -8,12 +8,9 @@ export const Login = () => {
     const signInWithGoogle = () => {
         signInWithPopup(auth, provider)
           .then(() => {
-            // User signed in successfully
             navigate("/");
           })
           .catch((error) => {
-            // User closed the signInWithPopup window or an error occurred
-            // You can handle this case by redirecting to the login page
             navigate("/login");
           });
     };

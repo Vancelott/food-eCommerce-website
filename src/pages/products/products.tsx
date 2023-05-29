@@ -33,12 +33,14 @@ export const Products = () => {
     }, [])
 
     return (
-        <div className="bg-gray-100 flex flex-col items-center min-h-screen pb-16 pt-20">
-            <div className="flex flex-col md:flex-row items-center md:space-x-8 place-content-center">
-            {productsList?.map((product) => (
-                <Product product={product} key={product.id} />
-            ))}
-            </div>
-      </div>
+    <div className="bg-gray-100 flex flex-col items-center min-h-screen pb-16 pt-20">
+    <div className="flex flex-wrap justify-center">
+        {productsList?.map((product) => (
+        <div className="max-w-sm mx-4 mb-8" key={product.id}>
+            <Product product={product} />
+        </div>
+        ))}
+    </div>
+    </div>
     )
 };
