@@ -36,7 +36,9 @@ export const Product = (props: Props) => {
     fetchImageURL();
   }, []);
 
-  const [showAlert, setShowAlert] = useState(false);
+  const [showLoginAlert, setShowLoginAlert] = useState(false);
+  const [showCartAlert, setShowCartAlert] = useState(false);
+  const [alertNum, setAlertNum] = useState(0)
 
   const addToCart = async () => {
     if (user) {
@@ -47,7 +49,7 @@ export const Product = (props: Props) => {
         productTitle: product.title,
         productPrice: product.price,
         quantity: 1,
-        imageurl: product.imageurl,
+        // imageurl: product.imageurl,
       });
     } else {
       const cartData = cartSnapshot.data();
@@ -57,7 +59,7 @@ export const Product = (props: Props) => {
       const productTitle2 = cartData.productTitle2;
       const productPrice2 = cartData.productPrice2;
       const quantity2 = cartData.quantity2;
-      const imageurl2 = cartData.imageurl2;
+      // const imageurl2 = cartData.imageurl2;
   
       if (productTitle === product.title) {
         await updateDoc(cartDocRef!, {
@@ -67,7 +69,7 @@ export const Product = (props: Props) => {
         await updateDoc(cartDocRef!, {
           productTitle2: product.title,
           productPrice2: product.price,
-          imageurl2: product.imageurl,
+          // imageurl2: product.imageurl,
           quantity2: increment(1),
         });
       } else if (productTitle2 === product.title) {
@@ -82,13 +84,15 @@ export const Product = (props: Props) => {
         });
       }
     }} else {
-        setShowAlert(true);
+      setTimeout(() => {
+        setShowLoginAlert(false);
+      }, 3000);
     }
   };
-    
+
   return (
     <>
-      {showAlert && (
+      {showLoginAlert && (
         <div className="fixed top-4 right-4 z-10">
           <div className="flex flex-col items-end">
             <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4">
@@ -114,7 +118,7 @@ export const Product = (props: Props) => {
                       <button
                         type="button"
                         className="ml-3 bg-yellow-200 px-2 py-1.5 rounded-md text-sm font-medium text-yellow-700 hover:bg-yellow-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-yellow-50 focus:ring-yellow-600"
-                        onClick={() => setShowAlert(false)}
+                        onClick={() => setShowLoginAlert(false)}
                       >
                         Dismiss
                       </button>
@@ -126,6 +130,29 @@ export const Product = (props: Props) => {
           </div>
         </div>
       )}
+    {showCartAlert && (
+    <div className="fixed top-20 right-24 z-9 rounded-md bg-green-50 p-4">
+      <div className="flex">
+        <div className="flex-shrink-0">
+          {/* <CheckCircleIcon className="h-5 w-5 text-green-400" aria-hidden="true" /> */}
+        </div>
+        <div className="flex flex-wrap ml-3 space-x-1">
+          <p className="text-sm font-medium text-green-800">Product added to cart</p>
+          <p className="text-sm font-medium text-green-800">({alertNum})</p>
+        </div>
+        <div className="ml-auto pl-3">
+          <div className="-mx-1.5 -my-1.5">
+            <button
+              type="button"
+              className="inline-flex bg-green-50 rounded-md p-1.5 text-green-500 hover:bg-green-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-green-50 focus:ring-green-600"
+            >
+              <span className="sr-only">Dismiss</span>
+              {/* <XIcon className="h-5 w-5" aria-hidden="true" /> */}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>)}
       <div className="relative">
       <div>
           <Link to={`/product/${product?.id}`}>
@@ -136,7 +163,16 @@ export const Product = (props: Props) => {
             </div>
           </Link>
           <div className="bg-slate-200 pb-6 rounded-b-xl">
-            <button className="bg-amber-500 text-white rounded-lg px-4 py-2 mt-4" onClick={addToCart}>Add to cart</button>
+            <button className="bg-amber-500 text-white rounded-lg px-4 py-2 mt-4"
+             onClick={() => {
+              addToCart();
+              setShowCartAlert(true)
+              setAlertNum(alertNum + 1)
+              setTimeout(() =>{
+                setShowCartAlert(false)
+                }, 2000);    
+            }}
+              >Add to cart</button>
           </div>
         </div>
       </div>

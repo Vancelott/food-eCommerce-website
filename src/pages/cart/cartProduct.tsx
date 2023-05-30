@@ -5,6 +5,7 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 import { useState, useEffect } from "react";
 import { useNavigate, Link } from 'react-router-dom';
 import { getDownloadURL, getStorage, ref } from "firebase/storage";
+import { NavBar } from "../../components/navbar";
 
 interface Props extends Cart {
   productPrice: number;
@@ -18,13 +19,14 @@ interface Props extends Cart {
 }
 
 export const CartProduct = (props: Props) => {
-  
+
   const { productPrice, productTitle, id, quantity, productTitle2, quantity2, productPrice2 } = props;
   const subTotal = ((quantity ? quantity * productPrice : 0) + (quantity2 ? quantity2 * productPrice2 : 0)).toFixed(2);
   const total = ((quantity ? quantity * productPrice : 0) + (quantity2 ? quantity2 * productPrice2 : 0) + 4.99).toFixed(2);
   const cartRef = collection(db, 'cart');
   const [user] = useAuthState(auth);
   const cartDocRef = doc(cartRef, user?.uid);
+  const cartTotal = ((quantity ? quantity : 0) + (quantity2 ? quantity2 : 0))
   
   const Increment = async (quantityToUpdate: string) => {
     if (quantityToUpdate === "quantity") {
@@ -48,7 +50,7 @@ export const CartProduct = (props: Props) => {
         quantity2: increment(-1),
       });
     }
-    
+      
     const docSnapshot = await getDoc(cartDocRef);
     const updatedQuantity = docSnapshot.get("quantity");
     const updatedQuantity2 = docSnapshot.get("quantity2");
@@ -67,13 +69,27 @@ export const CartProduct = (props: Props) => {
         productTitle2: deleteField(),
       });
     }
-    if (!updatedQuantity && !updatedQuantity2) {
+    if (updatedQuantity === undefined && updatedQuantity2 === undefined) {
       await updateDoc(cartDocRef, {
-      userId: deleteField(),
-      imageurl: deleteField(),
-      })
+        quantity: deleteField(),
+        quantity2: deleteField(),
+        productPrice: deleteField(),
+        productPrice2: deleteField(),
+        productTitle: deleteField(),
+        productTitle2: deleteField(),
+      });
+      if (docSnapshot.exists()) {
+        await updateDoc(cartDocRef, {
+          userId: deleteField(),
+          imageurl: deleteField(),
+          imageurl2: deleteField(),
+        });
+      }
     }
-  };
+      };
+  
+  // useEffect(() => {
+  // }, [cartDocRef])
     
   const navigate = useNavigate();
   const handleOnClick = () => navigate('/order');

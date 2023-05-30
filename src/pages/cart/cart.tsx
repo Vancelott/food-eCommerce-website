@@ -1,9 +1,10 @@
-import { collection, doc, getDocs, query, where } from "firebase/firestore";
+import { collection, doc, getDocs, query, QueryEndAtConstraint, where } from "firebase/firestore";
 import { useState, useEffect } from 'react';
 import { db, auth } from '../../config/firebase';
 import { CartProduct } from './cartProduct';
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { useNavigate } from "react-router-dom";
+import { isTemplateExpression } from "typescript";
 
 interface Product {
   productPrice: number;
@@ -13,6 +14,7 @@ interface Product {
   userId: string;
   quantity: number;
   quantity2: number;
+  cartTotal: number;
 }
 
 export interface Cart {
@@ -55,12 +57,21 @@ export const Cart = () => {
     setIsLoading(false);
   };
   
-
   useEffect(() => {
     getCartProducts();
   }, [cartProducts, refreshPage]);
   
-  if (cartProducts.length <= 0) {
+  const getCartTotal = (cart: Cart[]) => {
+    let total = 0;
+    cart.forEach((item) => {
+      total += (item.quantity || 0) + (item.quantity2 || 0);
+    });
+    return total;
+  };
+
+  const cartTotal = getCartTotal(cartProducts);
+
+  if (cartTotal <= 0) {
     return (
       <div className="flex flex-col items-center justify-center h-screen pb-20">
       <p className="mx-8 mb-4 text-xl font-extrabold leading-none tracking-tight text-center text-gray-900 md:text-xl lg:text-2xl dark:text-gray-900">Your cart is empty.</p>

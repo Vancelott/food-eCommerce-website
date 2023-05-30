@@ -17,6 +17,9 @@ export const ProductPage = (props: Props) => {
   const cartRef = collection(db, 'cart');
   const [user] = useAuthState(auth);
 
+  const [showCartAlert, setShowCartAlert] = useState(false);
+  const [alertNum, setAlertNum] = useState(0)
+
   const [productList, setProductList] = useState<InterfaceProduct[] | null>(null);
   const productRef = collection(db, 'products');
 
@@ -95,6 +98,30 @@ export const ProductPage = (props: Props) => {
   }, [id, productList]);
 
   return (
+    <>
+    {showCartAlert && (
+      <div className="fixed top-20 right-24 z-9 rounded-md bg-green-50 p-4">
+        <div className="flex">
+          <div className="flex-shrink-0">
+            {/* <CheckCircleIcon className="h-5 w-5 text-green-400" aria-hidden="true" /> */}
+          </div>
+          <div className="flex flex-wrap ml-3 space-x-1">
+            <p className="text-sm font-medium text-green-800">Product added to cart</p>
+            <p className="text-sm font-medium text-green-800">({alertNum})</p>
+          </div>
+          <div className="ml-auto pl-3">
+            <div className="-mx-1.5 -my-1.5">
+              <button
+                type="button"
+                className="inline-flex bg-green-50 rounded-md p-1.5 text-green-500 hover:bg-green-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-green-50 focus:ring-green-600"
+              >
+                <span className="sr-only">Dismiss</span>
+                {/* <XIcon className="h-5 w-5" aria-hidden="true" /> */}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>)}  
     <div className="flex justify-center items-center bg-gray-100 min-h-screen">
       <div className="flex flex-col items-center m-10 sm:m-20 md:m-40 bg-orange-200 rounded-2xl px-5 py-5 sm:px-10 sm:py-10 lg:max-w-4xl xl:flex-row xl:space-x-10">
         <img className="w-96 h-96 sm:w-96 sm:h-80 md:w-80 md:h-96 object-cover mb-5 sm:mb-10" src={imageURL} alt="Product Image" />
@@ -103,11 +130,20 @@ export const ProductPage = (props: Props) => {
           <h2 className="text-center mb-3">{selectedProduct?.description}</h2>
           <p className="text-center mb-3 font-semibold">Price: ${selectedProduct?.price}</p>
           <div className="flex justify-center">
-            <button className="bg-amber-500 text-white rounded-lg px-4 py-2 mt-4" onClick={addToCart}>Add to cart</button>
+            <button className="bg-amber-500 text-white rounded-lg px-4 py-2 mt-4"
+            onClick={() => {
+              addToCart();
+              setShowCartAlert(true)
+              setAlertNum(alertNum + 1)
+              setTimeout(() =>{
+                setShowCartAlert(false)
+                }, 2000);    
+            }}
+            >Add to cart</button>
           </div>
         </div>
       </div>
     </div>
+    </>
   );
-          
-        };
+};
