@@ -83,12 +83,11 @@ export const Product = (props: Props) => {
           quantity: increment(1),
         });
       }
-    }} else {
-      setTimeout(() => {
-        setShowLoginAlert(false);
-      }, 3000);
-    }
-  };
+    }} 
+       if (!user) {
+        setShowLoginAlert(true);
+       }
+      };
 
   return (
     <>
@@ -130,7 +129,7 @@ export const Product = (props: Props) => {
           </div>
         </div>
       )}
-    {showCartAlert && (
+    {user! && showCartAlert && (
     <div className="fixed top-20 right-24 z-9 rounded-md bg-green-50 p-4">
       <div className="flex">
         <div className="flex-shrink-0">
