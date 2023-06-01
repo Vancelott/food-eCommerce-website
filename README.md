@@ -18,8 +18,8 @@ A live preview of the website is available at: [https://react-firebase-1011e.web
 
 ## Installation and Setup
 
-1. Clone the repository: `git clone https://github.com/Vancelott/react-firebase`
-2. Navigate to the project directory: `cd react-firebase`
+1. Clone the repository: `git clone https://github.com/your-username/early-ecommerce.git`
+2. Navigate to the project directory: `cd early-ecommerce`
 3. Install dependencies: `npm install`
 4. Configure Firebase:
    - Create a Firebase project and obtain the necessary API keys.
@@ -27,8 +27,10 @@ A live preview of the website is available at: [https://react-firebase-1011e.web
    - Update the Firebase configuration in the project's Firebase config file.
 5. Install React Router DOM: `npm install react-router-dom`
 6. Install Tailwind CSS: `npm install tailwindcss`
-7. Start the development server: `npm start`
-8. Open the website in your browser: `http://localhost:3000`
+7. Install Yup: `npm install yup`
+8. Install React Hook Form: `npm install react-hook-form`
+9. Start the development server: `npm start`
+10. Open the website in your browser: `http://localhost:3000`
 
 ## Dependencies
 
